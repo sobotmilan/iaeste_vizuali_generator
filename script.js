@@ -336,13 +336,20 @@ function wrapVisualText(element, text, width) {
     return lines;
 }
 
-function fitVisualText(svg, id, text, { size, minSize = 18, maxLines = 1, maxHeight = 80, maxWidth = 520, label = "" }) {
+function fitVisualText(svg, id, text, { size, minSize = 18, maxLines = 1, maxHeight = 80, maxWidth = 520, label = "", alignTop = false, top = null, lineSpacing = 1.3 }) {
     const element = svg.querySelector(`#${id}`);
     const y = Number(element.getAttribute("y"));
+    // Preserve the full-size top edge when a long country name shrinks.
+    let targetTop;
+    if (alignTop) {
+        element.style.fontSize = `${size}px`;
+        element.textContent = text;
+        targetTop = top ?? element.getBBox().y;
+    }
     for (let fontSize = size; fontSize >= minSize; fontSize--) {
         element.style.fontSize = `${fontSize}px`;
         const lines = wrapVisualText(element, text, maxWidth);
-        const lineHeight = fontSize * 1.3;
+        const lineHeight = fontSize * lineSpacing;
         if (lines.length > maxLines || lines.length * lineHeight > maxHeight) continue;
         element.replaceChildren(...lines.map((line, index) => {
             const span = document.createElementNS(SVG_NS, "tspan");
@@ -360,6 +367,12 @@ function fitVisualText(svg, id, text, { size, minSize = 18, maxLines = 1, maxHei
             }
             return span;
         }));
+        if (alignTop) {
+            const offset = targetTop - element.getBBox().y;
+            for (const span of element.children) {
+                span.setAttribute("y", String(Number(span.getAttribute("y")) + offset));
+            }
+        }
         return;
     }
     throw new Error("Tekst je predugačak za vizual. Skratite unos: " + text);
@@ -399,7 +412,7 @@ async function processOffer(offer) {
         const setInline = (id, label, value, settings) =>
             fitVisualText(svg, id, `${label}: ${value}`, { ...settings, label: `${label}: ` });
         setText("visual-country", offer.country.name.toLocaleUpperCase("sr-Latn"),
-            { size: 104.5, minSize: 24, maxLines: 1, maxHeight: 150, maxWidth: 520 });
+            { size: 104.5, minSize: 24, maxLines: 2, maxHeight: 125, maxWidth: 520, alignTop: true, top: 15, lineSpacing: 1.1 });
         setText("visual-city", offer.city, { size: 50, maxLines: 1, maxHeight: 80 });
         setText("visual-discipline", formatDisciplines(offer.disciplines),
             { size: 40, minSize: 18, maxLines: 6, maxHeight: 180 });
