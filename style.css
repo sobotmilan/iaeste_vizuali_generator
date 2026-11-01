@@ -343,3 +343,16 @@ select:focus-visible {
 .discipline-selection-section { margin-bottom: 16px; }
 .discipline-selection-layout .discipline-table { margin-top: 0; }
 .discipline-selection-layout .custom-discipline { margin-top: 0; }
+
+
+.photo-upload-section { margin: 18px 0; padding: 16px; border: 1px solid var(--border); border-radius: 10px; }
+.photo-upload-section h2 { margin: 0 0 12px; font-size: 1rem; }
+.photo-image-preview { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
+.photo-image-preview[hidden] { display: none; }
+
+.crop-controls { margin-top: 8px; }
+.crop-controls label { display: grid; gap: 4px; margin-bottom: 10px; }
+.crop-controls input[type="range"] { width: 100%; }
+.photo-status { margin: 0; font-size: .85rem; overflow-wrap: anywhere; }
+#download-jpg { display: block; margin: 18px auto 0; padding: 12px 20px; }
+#download-jpg:disabled { opacity: .5; cursor: wait; }

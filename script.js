@@ -1,6 +1,5 @@
 const form = document.getElementById("forma");
 
-// Serbian Latin collation keeps Č, Ć, Đ, Š and Ž in their alphabetical positions.
 function sortDropdownOptions(select) {
     const selectedValue = select.value;
     const collator = new Intl.Collator("sr-Latn", { sensitivity: "base" });
@@ -15,7 +14,6 @@ function sortDropdownOptions(select) {
 ["drzava", "oblast"].forEach(id => sortDropdownOptions(document.getElementById(id)));
 
 
-// A single picker adds structured selections to the table in selection order.
 const disciplineList = document.getElementById("discipline-list");
 const disciplinePicker = document.getElementById("oblast");
 const selectedDisciplines = [];
@@ -44,7 +42,7 @@ function addCustomDiscipline() {
         customDisciplineInput.focus();
         return;
     }
-    // Reuse a catalogue code if the custom text matches a predefined name.
+    
     const existing = [...disciplinePicker.options].find(option => option.value &&
         normalizeDisciplineName(option.textContent) === normalizeDisciplineName(name));
     selectedDisciplines.push({ code: existing ? existing.value : `custom-${++customDisciplineSequence}`, name });
@@ -302,7 +300,6 @@ const MONTH_NAMES = [
     "Jul", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
 ];
 
-// Parse date parts directly to avoid timezone shifts for date-only form values.
 function formatOfferMonth(value) {
     const [year, month] = value.split("-");
     return `${MONTH_NAMES[Number(month) - 1]} ${year}`;
@@ -313,7 +310,6 @@ function formatOfferDate(value) {
     return `${day}.${month}.${year}.`;
 }
 
-// Measure SVG text at its actual font size. Long words can wrap by character.
 function wrapVisualText(element, text, width) {
     const lines = [];
     let line = "";
@@ -374,11 +370,13 @@ async function processOffer(offer) {
     const container = document.getElementById("visual-container");
     const status = document.getElementById("visual-status");
     const button = document.getElementById("generisi");
+    const photoError = getPhotoError();
+    if (photoError) { status.textContent = photoError; return; }
     button.disabled = true;
+    document.getElementById("download-jpg").disabled = true;
     status.textContent = "Generisanje vizuala…";
     try {
-        const svg = document.getElementById("offer-template").content
-            .querySelector("svg").cloneNode(true);
+        const svg = createOfferVisual();
         const theme = ["dark-blue", "light-blue", "green"].includes(offer.theme)
             ? offer.theme : "dark-blue";
         svg.querySelector("#visual-panel").setAttribute("fill", `url(#${theme})`);
@@ -387,15 +385,16 @@ async function processOffer(offer) {
             `IAESTE BiH - ${offer.country.name}, ${offer.city}`;
         svg.querySelector("#template-description").textContent =
             `Ponuda za stručnu praksu ${offer.reference}.`;
-        // The SVG must be visible in the DOM for browser text measurements.
+        
         container.replaceChildren(svg);
         preview.hidden = false;
-        // Load all used weights before measuring; never fit text using fallback metrics.
+        
         await Promise.all([400, 700, 800].map(weight =>
             document.fonts.load(`${weight} 40px "IAESTE Mulish"`)));
         await document.fonts.ready;
 
-        // Base sizes enlarged by 4/3 relative to the supplied Canva values.
+        
+        await applyUploadedImages(svg);
         const setText = (id, text, settings) => fitVisualText(svg, id, text, settings);
         const setInline = (id, label, value, settings) =>
             fitVisualText(svg, id, `${label}: ${value}`, { ...settings, label: `${label}: ` });
@@ -425,7 +424,10 @@ async function processOffer(offer) {
         setInline("visual-language", "Jezik", formatLanguageRequirements(offer.languages, offer.languageRelation),
             { size: 37.33, minSize: 18, maxLines: 5, maxHeight: 130 });
         setText("visual-deadline", formatOfferDate(offer.deadline), { size: 40 });
-        status.textContent = "Vizual je generisan. Bočne ilustracije su privremene do dodavanja fotografija.";
+        svg.querySelector("#visual-logo").setAttribute("href", window.IAESTE_LOGO_DATA);
+        svg.dataset.reference = offer.reference;
+        document.getElementById("download-jpg").disabled = false;
+        status.textContent = "Vizual je generisan. Položaj fotografija možete prilagoditi klizačima, a vizual preuzeti kao JPG.";
         preview.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (error) {
         preview.hidden = true;
@@ -449,3 +451,193 @@ form.addEventListener("submit", function (event) {
 
     processOffer(offer);
 });
+
+
+
+const photoState = { discipline: { upload: null, version: 0, loading: false }, country: { upload: null, version: 0, loading: false } };
+let photoRenderVersion = 0;
+
+function getPhotoError() {
+    if (Object.values(photoState).some(state => state.loading)) return "Sačekajte da se fotografije učitaju.";
+    if (!photoState.discipline.upload || !photoState.country.upload) return "Učitajte fotografiju za lijevu i desnu kolonu.";
+    return null;
+}
+
+function readFileData(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Datoteku nije moguće pročitati."));
+        reader.readAsDataURL(file);
+    });
+}
+
+function loadPhoto(source) {
+    return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Fotografiju nije moguće učitati."));
+        image.src = source;
+    });
+}
+
+async function normalizePhoto(source) {
+    const image = await loadPhoto(source);
+    const scale = Math.min(1, 2700 / Math.max(image.naturalWidth, image.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    const context = canvas.getContext("2d");
+    context.fillStyle = "white";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return { data: canvas.toDataURL("image/jpeg", .95), width: canvas.width, height: canvas.height };
+}
+
+function cropGeometry(width, height, zoom, horizontal, vertical) {
+    const scale = Math.max(250 / width, 1350 / height) * zoom;
+    const w = width * scale, h = height * scale;
+    return { width: w, height: h, x: (250 - w) * horizontal / 100, y: (1350 - h) * vertical / 100 };
+}
+
+async function applyUploadedImages(svg) {
+    const layer = document.createElementNS(SVG_NS, "g");
+    layer.id = "visual-photos";
+    for (const [side, x] of [["discipline", 0], ["country", 830]]) {
+        const photo = photoState[side].upload;
+        if (!photo) continue;
+        const crop = cropGeometry(photo.width, photo.height,
+            Number(document.getElementById(`${side}-zoom`).value),
+            Number(document.getElementById(`${side}-x`).value),
+            Number(document.getElementById(`${side}-y`).value));
+        
+        const viewport = document.createElementNS(SVG_NS, "svg");
+        for (const [key, value] of Object.entries({x, y: 0, width: 250, height: 1350, overflow: "hidden"})) viewport.setAttribute(key, value);
+        const image = document.createElementNS(SVG_NS, "image");
+        for (const [key, value] of Object.entries({id: `visual-${side}-photo`, href: photo.data, ...crop, preserveAspectRatio: "none"})) image.setAttribute(key, value);
+        viewport.append(image);
+        layer.append(viewport);
+    }
+    svg.querySelector("#visual-photos")?.remove();
+    svg.querySelector("#side-backgrounds").after(layer);
+}
+
+async function refreshPhotoPreview() {
+    const version = ++photoRenderVersion;
+    const svg = document.querySelector("#visual-container > svg");
+    if (!svg) return;
+    const download = document.getElementById("download-jpg");
+    download.disabled = true;
+    try {
+        
+        const copy = svg.cloneNode(true);
+        await applyUploadedImages(copy);
+        if (version !== photoRenderVersion || !svg.isConnected) return;
+        svg.querySelector("#visual-photos")?.remove();
+        svg.querySelector("#side-backgrounds").after(copy.querySelector("#visual-photos"));
+        download.disabled = Boolean(getPhotoError());
+    } catch (error) {
+        if (version === photoRenderVersion) document.getElementById("visual-status").textContent = error.message;
+    }
+}
+
+function resetPhotoCrop(side) {
+    for (const [key, value] of [["zoom", 1], ["x", 50], ["y", 50]]) document.getElementById(`${side}-${key}`).value = value;
+}
+
+function updateUploadControls(side) {
+    const state = photoState[side];
+    const thumb = document.getElementById(`${side}-image-preview`);
+    thumb.hidden = !state.upload;
+    if (state.upload) thumb.src = state.upload.data;
+    else thumb.removeAttribute("src");
+    for (const key of ["zoom", "x", "y", "reset-crop"]) {
+        document.getElementById(`${side}-${key}`).disabled = !state.upload || state.loading;
+    }
+}
+
+for (const side of ["discipline", "country"]) {
+    const input = document.getElementById(`${side}-upload`);
+    const status = document.getElementById(`${side}-photo-status`);
+    input.addEventListener("change", async () => {
+        const state = photoState[side];
+        const version = ++state.version;
+        const file = input.files[0];
+        state.upload = null;
+        state.loading = Boolean(file);
+        document.getElementById("download-jpg").disabled = true;
+        updateUploadControls(side);
+        if (!file) { status.textContent = "Učitajte fotografiju."; refreshPhotoPreview(); return; }
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            state.loading = false;
+            status.textContent = "Odaberite JPG, PNG ili WebP fotografiju.";
+            input.value = "";
+            refreshPhotoPreview();
+            return;
+        }
+        status.textContent = "Učitavanje fotografije…";
+        try {
+            const photo = await normalizePhoto(await readFileData(file));
+            if (version !== state.version) return;
+            state.upload = photo;
+            resetPhotoCrop(side);
+            status.textContent = `Fotografija: ${file.name}`;
+        } catch (error) {
+            if (version !== state.version) return;
+            input.value = "";
+            status.textContent = error.message;
+        } finally {
+            if (version === state.version) {
+                state.loading = false;
+                updateUploadControls(side);
+                await refreshPhotoPreview();
+            }
+        }
+    });
+    document.getElementById(`${side}-reset-crop`).addEventListener("click", () => { resetPhotoCrop(side); refreshPhotoPreview(); });
+    for (const key of ["zoom", "x", "y"]) document.getElementById(`${side}-${key}`).addEventListener("input", refreshPhotoPreview);
+    updateUploadControls(side);
+}
+
+async function downloadJpg() {
+    const button = document.getElementById("download-jpg");
+    const status = document.getElementById("visual-status");
+    const svg = document.querySelector("#visual-container > svg");
+    if (!svg || button.disabled) return;
+    const photoError = getPhotoError();
+    if (photoError) { status.textContent = photoError; return; }
+    button.disabled = true;
+    try {
+        const copy = svg.cloneNode(true);
+        copy.setAttribute("width", "1080");
+        copy.setAttribute("height", "1350");
+        if ([...copy.querySelectorAll("image")].some(image => !image.getAttribute("href")?.startsWith("data:"))) {
+            throw new Error("Generišite vizual ponovo prije preuzimanja.");
+        }
+        const xml = new XMLSerializer().serializeToString(copy);
+        const source = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+        const image = await loadPhoto(source);
+        const canvas = document.createElement("canvas");
+        canvas.width = 1080;
+        canvas.height = 1350;
+        const context = canvas.getContext("2d");
+        context.fillStyle = "white";
+        context.fillRect(0, 0, 1080, 1350);
+        context.drawImage(image, 0, 0, 1080, 1350);
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", .95));
+        if (!blob) throw new Error("JPG nije moguće kreirati.");
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = (svg.dataset.reference || "iaeste-ponuda").replace(/[^a-zA-Z0-9_-]/g, "_") + ".jpg";
+        document.body.append(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        status.textContent = "JPG je spreman (1080 × 1350).";
+    } catch (error) {
+        status.textContent = "Preuzimanje nije uspjelo: " + error.message;
+    } finally { button.disabled = Boolean(getPhotoError()); }
+}
+
+document.getElementById("download-jpg").addEventListener("click", downloadJpg);
