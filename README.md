@@ -1,0 +1,1 @@
+Interna alatka namijenjena da članovima IAESTE outgoing tima olakša proces pravljenja vizuala za promovisanje plaćenih stručnih praksi u inostranstvu. Alatka sadrži formu za unos svih relevantnih podataka o praksi (država/grad, stručna oblast, plata itd.) kao i mogućnost uploadovanja slika koje će biti ugrađene u vizual (obavezno koristiti fair-use/stock slike).
