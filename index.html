@@ -1,110 +1,281 @@
 <!DOCTYPE html>
 
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IAESTE BiH Generator Vizuala</title>
 </head>
 
 <body>
-    <p>
-        Dobrodošli u IAESTE BiH Generator Vizuala! Ovo je alatka namijenjena da članovima OUTGOING tima olakša proces
-        stvaranja vizuala za promociju stručnih praksi na društvenima mrežama.
-    </p>
-
-    <div>
-
-        <label for="drzava">Odaberite državu:</label>
-
-        <select name="drzava" id="drzava">
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-        </select>
-
-        <br>
-
-        <label for="drzava">Odaberite grad:</label>
-
-        <select name="drzava" id="drzava">
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-            <option value="austrija">Austrija</option>
-        </select>
-
-        <br>
-
-        <label for="oblast">Odaberite stručnu oblast:</label>
-
-        <select name="oblast" id="oblast">
-            <option value="biologija">Biologija</option>
-            <option value="biologija">Biologija</option>
-            <option value="biologija">Biologija</option>
-            <option value="biologija">Biologija</option>
-            <option value="biologija">Biologija</option>
-        </select>
-
-        <br>
-
-        <label for="drzava">Unesite referentni broj prakse:</label>
-
-        <input type="text"></input>
-
-        <br>
-
-        <label for="drzava">Unesite period obavljanja prakse:</label>
-        od
-        <input type="date"></input>
-        do
-        <input type="date"></input>
-
-        <br>
-
-        <label for="drzava">Unesite raspon broja sedmica trajanja prakse (drugo polje ostaviti prazno ako je fiksni
-            broj):</label>
-
-        <input type="number" min="0" max="200" required> - </input>
-        <input type="number" min="0" max="200" required></input>
-
-        <br>
-
-        <label for="plata">Iznos plate (KM):</label>
-        <input type="number" id="plata" min="0" required>
-
-        <fieldset>
-            <legend>Period isplate:</legend>
-
-            <label>
-                <input type="radio" name="periodIsplate" value="sedmicno" required>
-                Sedmično
-            </label>
-
-            <label>
-                <input type="radio" name="periodIsplate" value="mjesecno">
-                Mjesečno
-            </label>
-        </fieldset>
-
-        <label for="drzava">Unosite uslov (broj godina studija završen):</label>
-        <input type="number" min="1" max="4"> godina</input>
-        <br>
-        <label for="drzava">Unesite krajnji datum podnošenja prijava:</label>
-        <input type="date" form="dd/mm/yyyy"></input>
-        <br>
-        <label for="boja">Odaberite boju vizuala:</label>
-        <select>
-            <option>Tamno plava</option>
-            <option>Svijetlo plava</option>
-            <option>Zelena</option>
-        </select>
+    <div class="form-naslov">
+        <h1 id="naslov" name="dobrodosli">IAESTE BiH Generator Vizuala</h1>
     </div>
 
-    <button type="button">Generiši!</button>
-    <p>Made by Milan Šobot, 2026.</p>
+    <div class="form-dobrodosli">
+        <p id="dobrodosli" name="dobrodosli">
+            Alatka namijenjena da članovima OUTGOING tima olakša
+            proces stvaranja vizuala za stručne prakse!
+        </p>
+    </div>
+
+    <form id="forma" name="forma">
+
+        <div class="form-row">
+
+            <div class="form-group form-drzava">
+                <label for="drzava">Odaberite državu:</label>
+                <select id="drzava" name="drzava" required>
+                    <option disabled="" selected="" value="">-- Odaberite državu --</option>
+                    <option value="AF">Avganistan</option>
+                    <option value="AL">Albanija</option>
+                    <option value="AR">Argentina</option>
+                    <option value="AU">Australija</option>
+                    <option value="AT">Austrija</option>
+                    <option value="AZ">Azerbejdžan</option>
+                    <option value="BD">Bangladeš</option>
+                    <option value="BY">Bjelorusija</option>
+                    <option value="BE">Belgija</option>
+                    <option value="BJ">Benin</option>
+                    <option value="BO">Bolivija</option>
+                    <option value="BA">Bosna i Hercegovina</option>
+                    <option value="BW">Bocvana</option>
+                    <option value="BR">Brazil</option>
+                    <option value="BI">Burundi</option>
+                    <option value="CM">Kamerun</option>
+                    <option value="CA">Kanada</option>
+                    <option value="CL">Čile</option>
+                    <option value="HK">Hongkong (Kina)</option>
+                    <option value="MO">Makao (Kina)</option>
+                    <option value="CN">Kina</option>
+                    <option value="CO">Kolumbija</option>
+                    <option value="HR">Hrvatska</option>
+                    <option value="CZ">Češka</option>
+                    <option value="EC">Ekvador</option>
+                    <option value="EG">Egipat</option>
+                    <option value="FR">Francuska</option>
+                    <option value="GM">Gambija</option>
+                    <option value="DE">Njemačka</option>
+                    <option value="GH">Gana</option>
+                    <option value="GR">Grčka</option>
+                    <option value="HU">Mađarska</option>
+                    <option value="IN">Indija</option>
+                    <option value="ID">Indonezija</option>
+                    <option value="IR">Iran</option>
+                    <option value="IQ">Irak</option>
+                    <option value="JP">Japan</option>
+                    <option value="JO">Jordan</option>
+                    <option value="KZ">Kazahstan</option>
+                    <option value="KE">Kenija</option>
+                    <option value="KR">Južna Koreja</option>
+                    <option value="KG">Kirgistan</option>
+                    <option value="LB">Liban</option>
+                    <option value="MK">Sjeverna Makedonija</option>
+                    <option value="MT">Malta</option>
+                    <option value="MX">Meksiko</option>
+                    <option value="MN">Mongolija</option>
+                    <option value="NP">Nepal</option>
+                    <option value="NI">Nikaragva</option>
+                    <option value="NG">Nigerija</option>
+                    <option value="NO">Norveška</option>
+                    <option value="OM">Oman</option>
+                    <option value="PK">Pakistan</option>
+                    <option value="PS">Palestina</option>
+                    <option value="PA">Panama</option>
+                    <option value="PE">Peru</option>
+                    <option value="PH">Filipini</option>
+                    <option value="PL">Poljska</option>
+                    <option value="QA">Katar</option>
+                    <option value="RO">Rumunija</option>
+                    <option value="RU">Rusija</option>
+                    <option value="RS">Srbija</option>
+                    <option value="SL">Sijera Leone</option>
+                    <option value="SK">Slovačka</option>
+                    <option value="SI">Slovenija</option>
+                    <option value="ES">Španija</option>
+                    <option value="LK">Šri Lanka</option>
+                    <option value="SE">Švedska</option>
+                    <option value="CH">Švajcarska</option>
+                    <option value="SY">Sirija</option>
+                    <option value="TJ">Tadžikistan</option>
+                    <option value="TZ">Tanzanija</option>
+                    <option value="TH">Tajland</option>
+                    <option value="TN">Tunis</option>
+                    <option value="TR">Turska</option>
+                    <option value="AE">Ujedinjeni Arapski Emirati</option>
+                    <option value="UG">Uganda</option>
+                    <option value="GB">Ujedinjeno Kraljevstvo</option>
+                    <option value="US">Sjedinjene Američke Države</option>
+                    <option value="UZ">Uzbekistan</option>
+                    <option value="VN">Vijetnam</option>
+                    <option value="YE">Jemen</option>
+                    <option value="ZM">Zambija</option>
+                </select>
+            </div>
+
+            <div class="form-group form-grad">
+                <label for="grad">Odaberite grad:</label>
+                <input type="text" id="grad" name="grad" placeholder="npr. Graz" required>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group form-oblast">
+                <label for="oblast">Odaberite stručnu oblast:</label>
+                <select id="oblast" name="oblast" required>
+                    <option disabled="" selected="" value="">-- Odaberite stručnu oblast --</option>
+                    <option value="AERO">Vazduhoplovno i svemirsko inženjerstvo</option>
+                    <option value="AGR">Poljoprivreda</option>
+                    <option value="ARCH">Arhitektura</option>
+                    <option value="BCH">Biohemija</option>
+                    <option value="BME">Bioinženjerstvo i biomedicinsko inženjerstvo</option>
+                    <option value="BINF">Bioinformatika</option>
+                    <option value="BIO">Biologija</option>
+                    <option value="BMS">Biomedicinske nauke</option>
+                    <option value="BIOT">Biotehnologija</option>
+                    <option value="CHE">Hemija i hemijsko inženjerstvo</option>
+                    <option value="CE">Građevinarstvo</option>
+                    <option value="COMM">Komunikologija, novinarstvo i srodni programi</option>
+                    <option value="CS">Računarstvo i informatika</option>
+                    <option value="CSH">Inženjerstvo računarskog softvera i hardvera</option>
+                    <option value="CYB">Sajber bezbjednost</option>
+                    <option value="EBM">Ekonomija, poslovanje, menadžment i marketing</option>
+                    <option value="EDU">Obrazovanje</option>
+                    <option value="EE">Elektrotehnika</option>
+                    <option value="EL">Elektronika</option>
+                    <option value="ENV">Inženjerstvo zaštite životne sredine i nauke o životnoj sredini</option>
+                    <option value="FOOD">Prehrambene nauke</option>
+                    <option value="FOR">Šumarstvo</option>
+                    <option value="GEOD">Geodezija i geodetsko inženjerstvo</option>
+                    <option value="GEOG">Geografija</option>
+                    <option value="GEOL">Geologija</option>
+                    <option value="ISE">Industrijsko i sistemsko inženjerstvo</option>
+                    <option value="IARCH">Unutrašnja arhitektura</option>
+                    <option value="LARCH">Pejzažna arhitektura</option>
+                    <option value="MAT">Inženjerstvo i nauka o materijalima</option>
+                    <option value="MATH">Matematika i statistika</option>
+                    <option value="ME">Mašinstvo</option>
+                    <option value="MRA">Mehatronika, robotika i automatizacija</option>
+                    <option value="MET">Metalurško inženjerstvo</option>
+                    <option value="MIC">Mikrobiologija</option>
+                    <option value="MINE">Rudarstvo i inženjerstvo mineralnih sirovina</option>
+                    <option value="NRC">Prirodni resursi i zaštita prirode</option>
+                    <option value="NME">Brodogradnja i pomorsko inženjerstvo</option>
+                    <option value="NET">Administracija računarskih mreža</option>
+                    <option value="PET">Naftno inženjerstvo</option>
+                    <option value="PHARM">Farmacija i farmakologija</option>
+                    <option value="PHYS">Fizika i fizičke nauke</option>
+                    <option value="PWR">Elektroenergetika</option>
+                    <option value="PROC">Procesno inženjerstvo</option>
+                    <option value="PSY">Psihologija</option>
+                    <option value="TEL">Telekomunikacije</option>
+                    <option value="TEX">Tekstilne nauke i inženjerstvo</option>
+                    <option value="VET">Veterina</option>
+                    <option value="WDS">Veb razvoj, softversko inženjerstvo i programiranje</option>
+                </select>
+            </div>
+
+            <div class="form-group form-refBr">
+                <label for="refbr">Unesite referentni broj prakse:</label>
+                <input name="refbr" id="refbr" type="text" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group form-period">
+                <fieldset>
+                    <legend>Unesite period obavljanja prakse:</legend>
+
+                    <label>
+                        od
+                        <input name="od" id="od" type="date" required>
+                    </label>
+
+                    <label>
+                        do
+                        <input name="do" id="do" type="date" required>
+                    </label>
+                </fieldset>
+            </div>
+
+            <div class="form-group form-raspon">
+                <fieldset>
+                    <legend>Trajanje prakse (sedmice):</legend>
+
+                    <label>
+                        <input type="number" id="min" name="min" min="1" max="200" placeholder="Min"
+                            aria-label="Minimalno trajanje u sedmicama" required> -
+                    </label>
+
+                    <label>
+                        <input type="number" id="max" name="max" min="1" max="200" placeholder="Max"
+                            aria-label="Maksimalno trajanje u sedmicama" required>
+                    </label>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group form-plata">
+                <label for="plata">Iznos plate (KM):</label>
+                <input type="number" name="plata" id="plata" min="0" required>
+            </div>
+
+            <div class="form-group form-periodIsplate">
+                <fieldset>
+                    <legend>Period isplate:</legend>
+
+                    <label>
+                        <input type="radio" name="periodIsplate" value="sedmicno" required>
+                        Sedmično
+                    </label>
+
+                    <label>
+                        <input type="radio" name="periodIsplate" value="mjesecno">
+                        Mjesečno
+                    </label>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group form-uslov">
+                <label for="uslov">Unosite uslov (broj godina studija završen):</label>
+                <div class="input-with-suffix">
+                    <input name="uslov" id="uslov" type="number" min="1" max="4" required>
+                    <span>godina</span>
+                </div>
+            </div>
+
+            <div class="form-group form-rok">
+                <label for="rok">Unesite krajnji datum podnošenja prijava:</label>
+                <input id="rok" name="rok" type="date" required>
+            </div>
+
+        </div>
+
+        <div class="form-group form-boja">
+            <label for="boja">Odaberite boju vizuala:</label>
+            <select name="boja" id="boja" required>
+                <option disabled="" selected="" value="">-- Odaberite boju --</option>
+                <option value="dark-blue">Tamno plava</option>
+                <option value="light-blue">Svijetlo plava</option>
+                <option value="green">Zelena</option>
+            </select>
+        </div>
+    </form>
+
+    <div class="form-generisi">
+        <input form="forma" type="submit" id="generisi" name="generisi" value="Generiši!">
+    </div>
+    <div class="form-by">
+        <p id="by" name="by">Made by <a target="_blank" href="https://github.com/sobotmilan">Milan Šobot</a>, 2026.</p>
+    </div>
 </body>
 
 </html>

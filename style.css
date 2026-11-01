@@ -1,0 +1,137 @@
+:root {
+    --iaeste-blue: #1261a0;
+    --background: #f3f6fa;
+    --text: #243247;
+    --border: #d8e0ea;
+}
+
+#forma {
+    max-width: 900px;
+    margin: 16px auto;
+    padding: 24px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+#dobrodosli, #naslov {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#dobrodosli {
+    margin-top: 4px;
+}
+
+#naslov {
+    color: #0d4979;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+
+#by {
+    text-align: center;
+}
+
+
+#generisi {
+    display: block;
+    margin: 24px auto;
+    padding: 12px 32px;
+    background: var(--iaeste-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#generisi:hover {
+    background: #0d4979;
+}
+
+body {
+    background-color: var(--background);
+    font-family: system-ui, sans-serif;
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font: inherit;
+}
+
+fieldset {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 0;
+}
+
+legend {
+    font-weight: 600;
+    padding: 0 8px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.form-group > input,
+.form-group > select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#uslov {
+    width: 90px;
+    align-self: flex-start;
+}
+
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--iaeste-blue);
+    outline-offset: 2px;
+}
+
+.input-with-suffix {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-row > .form-group {
+    min-width: 0;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    #forma {
+        padding: 16px;
+    }
+}
