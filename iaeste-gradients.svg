@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <defs>
+    <linearGradient id="dark-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#114866"/>
+      <stop offset="10%" stop-color="#154E6E"/>
+      <stop offset="20%" stop-color="#195577"/>
+      <stop offset="30%" stop-color="#1C5B7E"/>
+      <stop offset="40%" stop-color="#1F6186"/>
+      <stop offset="50%" stop-color="#23688F"/>
+      <stop offset="60%" stop-color="#266D96"/>
+      <stop offset="70%" stop-color="#2A749D"/>
+      <stop offset="80%" stop-color="#2E7AA5"/>
+      <stop offset="90%" stop-color="#317FAC"/>
+      <stop offset="100%" stop-color="#3486B4"/>
+    </linearGradient>
+    <linearGradient id="light-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2287C8"/>
+      <stop offset="10%" stop-color="#248ECD"/>
+      <stop offset="20%" stop-color="#2695D2"/>
+      <stop offset="30%" stop-color="#289CD7"/>
+      <stop offset="40%" stop-color="#2AA3DC"/>
+      <stop offset="50%" stop-color="#2CAAE1"/>
+      <stop offset="60%" stop-color="#33ADD9"/>
+      <stop offset="70%" stop-color="#3AB0D1"/>
+      <stop offset="80%" stop-color="#41B2CA"/>
+      <stop offset="90%" stop-color="#48B5C3"/>
+      <stop offset="100%" stop-color="#4EB7BC"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#61B44A"/>
+      <stop offset="10%" stop-color="#6BB648"/>
+      <stop offset="20%" stop-color="#75B947"/>
+      <stop offset="30%" stop-color="#7EBB46"/>
+      <stop offset="40%" stop-color="#86BD45"/>
+      <stop offset="50%" stop-color="#8DBF44"/>
+      <stop offset="60%" stop-color="#95C241"/>
+      <stop offset="70%" stop-color="#9EC53F"/>
+      <stop offset="80%" stop-color="#A8C93C"/>
+      <stop offset="90%" stop-color="#B1CC39"/>
+      <stop offset="100%" stop-color="#BBD036"/>
+    </linearGradient>
+  </defs>
+  <!-- Change #dark-blue to #light-blue or #green for the other themes -->
+  <rect x="250" y="0" width="580" height="1350" fill="url(#dark-blue)"/>
+</svg>

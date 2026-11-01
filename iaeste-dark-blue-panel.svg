@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <defs>
+    <linearGradient id="dark-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#114866" />
+      <stop offset="10%" stop-color="#154E6E" />
+      <stop offset="20%" stop-color="#195577" />
+      <stop offset="30%" stop-color="#1C5B7E" />
+      <stop offset="40%" stop-color="#1F6186" />
+      <stop offset="50%" stop-color="#23688F" />
+      <stop offset="60%" stop-color="#266D96" />
+      <stop offset="70%" stop-color="#2A749D" />
+      <stop offset="80%" stop-color="#2E7AA5" />
+      <stop offset="90%" stop-color="#317FAC" />
+      <stop offset="100%" stop-color="#3486B4" />
+    </linearGradient>
+  </defs>
+  <rect x="250" y="0" width="580" height="1350" fill="url(#dark-blue)" />
+</svg>

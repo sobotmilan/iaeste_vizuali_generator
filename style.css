@@ -287,3 +287,59 @@ select:focus-visible {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
+
+.visual-preview {
+    max-width: 760px;
+    margin: 24px auto;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.visual-preview h2 { margin: 0 0 8px; }
+.visual-preview p { margin: 0 0 16px; }
+#visual-container svg { display: block; width: 100%; height: auto; }
+.visual-status { max-width: 760px; margin: 12px auto; overflow-wrap: anywhere; }
+#generisi:disabled { opacity: .6; cursor: wait; }
+
+
+.discipline-picker { display: flex; gap: 8px; }
+.discipline-picker select { flex: 1; min-width: 0; width: 100%; }
+.discipline-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: .9rem; }
+.discipline-table caption { text-align: left; font-weight: 600; margin-bottom: 6px; }
+.discipline-table th, .discipline-table td { text-align: left; padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.discipline-table td:first-child { overflow-wrap: anywhere; }
+.discipline-table th:last-child, .discipline-table td:last-child { width: 1%; white-space: nowrap; }
+.discipline-table th { background: var(--background); }
+.remove-discipline {
+    font: inherit;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--iaeste-blue);
+    padding: 7px 11px;
+    border-radius: 8px;
+}
+.remove-discipline[hidden] { display: none; }
+.remove-discipline:hover { background: #eaf3fc; }
+.remove-discipline:focus-visible { outline: 2px solid var(--iaeste-blue); outline-offset: 2px; }
+.discipline-preview { font-size: .9rem; margin: 8px 0; overflow-wrap: anywhere; }
+
+
+.discipline-selection-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+.custom-discipline { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; min-width: 0; }
+.custom-discipline input { width: 100%; min-width: 0; }
+#custom-discipline-status { font-size: .85rem; margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+    .discipline-selection-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+.discipline-selection-section { margin-bottom: 16px; }
+.discipline-selection-layout .discipline-table { margin-top: 0; }
+.discipline-selection-layout .custom-discipline { margin-top: 0; }
