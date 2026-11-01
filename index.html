@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAESTE BiH Generator Vizuala</title>
+</head>
+
+<body>
+    <p>
+        Dobrodošli u IAESTE BiH Generator Vizuala! Ovo je alatka namijenjena da članovima OUTGOING tima olakša proces
+        stvaranja vizuala za promociju stručnih praksi na društvenima mrežama.
+    </p>
+
+    <div>
+
+        <label for="drzava">Odaberite državu:</label>
+
+        <select name="drzava" id="drzava">
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+        </select>
+
+        <br>
+
+        <label for="drzava">Odaberite grad:</label>
+
+        <select name="drzava" id="drzava">
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+            <option value="austrija">Austrija</option>
+        </select>
+
+        <br>
+
+        <label for="oblast">Odaberite stručnu oblast:</label>
+
+        <select name="oblast" id="oblast">
+            <option value="biologija">Biologija</option>
+            <option value="biologija">Biologija</option>
+            <option value="biologija">Biologija</option>
+            <option value="biologija">Biologija</option>
+            <option value="biologija">Biologija</option>
+        </select>
+
+        <br>
+
+        <label for="drzava">Unesite referentni broj prakse:</label>
+
+        <input type="text"></input>
+
+        <br>
+
+        <label for="drzava">Unesite period obavljanja prakse:</label>
+        od
+        <input type="date"></input>
+        do
+        <input type="date"></input>
+
+        <br>
+
+        <label for="drzava">Unesite raspon broja sedmica trajanja prakse (drugo polje ostaviti prazno ako je fiksni
+            broj):</label>
+
+        <input type="number" min="0" max="200" required> - </input>
+        <input type="number" min="0" max="200" required></input>
+
+        <br>
+
+        <label for="plata">Iznos plate (KM):</label>
+        <input type="number" id="plata" min="0" required>
+
+        <fieldset>
+            <legend>Period isplate:</legend>
+
+            <label>
+                <input type="radio" name="periodIsplate" value="sedmicno" required>
+                Sedmično
+            </label>
+
+            <label>
+                <input type="radio" name="periodIsplate" value="mjesecno">
+                Mjesečno
+            </label>
+        </fieldset>
+
+        <label for="drzava">Unosite uslov (broj godina studija završen):</label>
+        <input type="number" min="1" max="4"> godina</input>
+        <br>
+        <label for="drzava">Unesite krajnji datum podnošenja prijava:</label>
+        <input type="date" form="dd/mm/yyyy"></input>
+        <br>
+        <label for="boja">Odaberite boju vizuala:</label>
+        <select>
+            <option>Tamno plava</option>
+            <option>Svijetlo plava</option>
+            <option>Zelena</option>
+        </select>
+    </div>
+
+    <button type="button">Generiši!</button>
+    <p>Made by Milan Šobot, 2026.</p>
+</body>
+
+</html>
